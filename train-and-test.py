@@ -1,12 +1,13 @@
 # Inspired by https://www.kaggle.com/x09072993/aml-detection
 # 
-# Train and test against file "trein-and-test.csv" and asave model to "model.plk"
+# Train and test against file "train-and-test.csv" and save model to "model.plk"
 
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import random
 import joblib as joblib
+import time
 
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.compose import ColumnTransformer
@@ -23,6 +24,9 @@ from imblearn.over_sampling import RandomOverSampler
 from imblearn.metrics import classification_report_imbalanced
 from sklearn.metrics import confusion_matrix, precision_score,auc,roc_auc_score,roc_curve,recall_score
 
+
+start = time.time()
+
 random.seed(50)
 
 # Importing the dataset
@@ -30,8 +34,8 @@ dataset = pd.read_csv('./train-and-test.csv')
 dataset.drop('nameOrig', axis=1, inplace=True)
 dataset.drop('nameDest', axis=1, inplace=True)
 dataset.drop('isFlaggedFraud', axis=1, inplace=True)
-sample_dataframe = dataset.sample(n=100000)
-#sample_dataframe = dataset.sample(n=len(dataset))              # use all records for train, slow  
+#sample_dataframe = dataset.sample(n=100000)
+sample_dataframe = dataset.sample(n=len(dataset))              # use all records for train, slow  
 X = sample_dataframe.iloc[:, :-1].values
 y = sample_dataframe.iloc[:, 7].values
 print(sample_dataframe.isFraud.value_counts())
@@ -76,6 +80,9 @@ cm = confusion_matrix(y_val, pipeline4.predict(X_val))
 roc = roc_auc_score(y_val, pipeline4.predict(X_val))
 fpr, tpr, thresholds = roc_curve(y_val, pipeline4.predict(X_val))
 roc_auc = auc(fpr,tpr)
+
+end = time.time()
+print("Done in: " + str(end - start))
 
 # Plot ROC
 plt.title('Receiver Operating Characteristic')
