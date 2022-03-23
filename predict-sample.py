@@ -31,7 +31,10 @@ dataset.drop('nameOrig', axis=1, inplace=True)
 dataset.drop('nameDest', axis=1, inplace=True)
 dataset.drop('isFlaggedFraud', axis=1, inplace=True)
 X = dataset.iloc[:, :-1].values
-y = dataset.iloc[:, 7].values
+#y = dataset.iloc[:, 7].values
+
+print("X is: " + str(X))
+print("X type is: " + str(type(X)))
 
 # Encoding categorical data
 labelencoder = LabelEncoder()
@@ -49,10 +52,12 @@ pipeline4 = joblib.load('model.pkl')
 # predict output values
 y_val = pipeline4.predict(X_val)
 
+print("y_val is: " + str(y_val))
+
 # print out values
-i=0
-while i<len(y_val):
-    print("[" + str(i) + "]: " + str(y_val[i]))
-    i=i+1
+#i=0
+#while i<len(y_val):
+#    print("[" + str(i) + "]: " + str(y_val[i]))
+#    i=i+1
 
 print("done")
