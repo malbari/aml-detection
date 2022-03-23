@@ -28,6 +28,8 @@ from io import StringIO
 
 random.seed(50)
 
+pipeline4 = joblib.load('model.pkl')
+
 dictConfig({
     'version': 1,
     'formatters': {'default': {
@@ -146,7 +148,6 @@ def predict_value():
     X_val = sc.fit_transform(X)
 
     # predict output values
-    pipeline4 = joblib.load('model.pkl')
     y_val = pipeline4.predict(X_val)
 
     app.logger.info("y_val is: " + str(y_val))
